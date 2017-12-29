@@ -1,9 +1,8 @@
 apiVersion: "kubeflow.caicloud.io/v1alpha1"
 kind: "TFJob"
 metadata:
-  name: "training-job"
+  name: "local-training-job"
 spec:
-  type: Training
   tfReplicaSpec:
   - replicas: 1
     tfReplicaType: Local
@@ -11,15 +10,6 @@ spec:
       spec:
         containers:
         - name: tensorflow
-          image: cargo.caicloud.io/clever-base/tensorflow:1.4.0
-          command:
-          - "/workdir/tensorflow/launch_training.sh"
-          volumeMounts:
-          - name: workdir
-            mountPath: /workdir
-        volumes:
-        - name: workdir
-          glusterfs:
-            endpoints: <gluster-cluster>
-            path: <gluster_vol_subpath>
+          image: cargo.caicloud.io/clever-base/tensorflow:v1.4.0-example
+          command: ["python", "/opt/mnist/mnist_softmax.py"]
         restartPolicy: OnFailure
