@@ -22,6 +22,8 @@ spec:
         - name: tensorflow
           image: cargo.caicloud.io/clever-base/tensorflow:v1.4.0-example
           command: ["python", "/opt/mnist/mnist_replica.py"]
+          args:
+          - "--data_dir=/opt/mnist-data"
           ports:
           - containerPort: 2222
         restartPolicy: OnFailure
